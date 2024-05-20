@@ -7,16 +7,49 @@
 	},
 	"item": [
 		{
-			"name": "unwanted behavior",
+			"name": "to test response times",
 			"item": [
 				{
-					"name": "todos invalid",
+					"name": "todos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/todos",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"todos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "todos",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let responseJson = pm.response.json();",
+									"pm.collectionVariables.set(\"todoId\", responseJson.id);",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
 					"request": {
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"title\": \"buy milk\",\r\n    \"completed\": \"no\"\r\n}\r\n",
+							"raw": "{\r\n    \"title\": \"Buy groceries\"\r\n}\r\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -38,37 +71,12 @@
 					"response": []
 				},
 				{
-					"name": "todos car",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"make\": \"Porsche\",\r\n    \"model\": \"Taycan\"\r\n}\r\n",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:8080/todos",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"todos"
-							]
-						}
+					"name": "todos/:id",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
 					},
-					"response": []
-				},
-				{
-					"name": "todos empty",
 					"request": {
-						"method": "POST",
+						"method": "GET",
 						"header": [],
 						"body": {
 							"mode": "raw",
@@ -80,26 +88,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/todos",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"todos"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "todos/-1",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:8080/todos/-1",
+							"raw": "http://localhost:8080/todos/:id",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -107,14 +96,20 @@
 							"port": "8080",
 							"path": [
 								"todos",
-								"-1"
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{todoId}}"
+								}
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "todos/-1",
+					"name": "todos/:id",
 					"request": {
 						"method": "PUT",
 						"header": [],
@@ -128,7 +123,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/todos/-1",
+							"raw": "http://localhost:8080/todos/:id",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -136,19 +131,25 @@
 							"port": "8080",
 							"path": [
 								"todos",
-								"-1"
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{todoId}}"
+								}
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "todos/-1/toggle",
+					"name": "todos/:id/toggle",
 					"request": {
 						"method": "POST",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/todos/-1/toggle",
+							"raw": "http://localhost:8080/todos/:id/toggle",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -156,20 +157,26 @@
 							"port": "8080",
 							"path": [
 								"todos",
-								"-1",
+								":id",
 								"toggle"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{todoId}}"
+								}
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "todos/-1",
+					"name": "todos/:id",
 					"request": {
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/todos/-1",
+							"raw": "http://localhost:8080/todos/:id",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -177,51 +184,399 @@
 							"port": "8080",
 							"path": [
 								"todos",
-								"-1"
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{todoId}}"
+								}
 							]
 						}
 					},
 					"response": []
+				}
+			]
+		},
+		{
+			"name": "unwanted behavior",
+			"item": [
+				{
+					"name": "todo-list",
+					"item": [
+						{
+							"name": "unknown",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/unknown",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"unknown"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "todos invalid",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"title\": \"buy milk\",\r\n    \"completed\": \"no\"\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/todos",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"todos"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "todos car",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"make\": \"Porsche\",\r\n    \"model\": \"Taycan\"\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/todos",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"todos"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "todos empty",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/todos",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"todos"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "todos/-1",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/todos/-1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"todos",
+										"-1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "todos/-1",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"title\": \"Buy groceries and toiletries\"\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/todos/-1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"todos",
+										"-1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "todos/-1/toggle",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/todos/-1/toggle",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"todos",
+										"-1",
+										"toggle"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "todos/-1",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/todos/-1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"todos",
+										"-1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "todos/test",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/todos/test",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"todos",
+										"test"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "todos/9999999999999999",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/todos/999999999999999999999",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"todos",
+										"999999999999999999999"
+									]
+								}
+							},
+							"response": []
+						}
+					]
 				},
 				{
-					"name": "todos/test",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:8080/todos/test",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"todos",
-								"test"
-							]
+					"name": "yahtzee",
+					"item": [
+						{
+							"name": "unknown",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/unknown",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"unknown"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "login not registered",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/login?username=not&password=registered",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"login"
+									],
+									"query": [
+										{
+											"key": "username",
+											"value": "not"
+										},
+										{
+											"key": "password",
+											"value": "registered"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "login empty",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/login",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "yathzee missing auth",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/yahtzee",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"yahtzee"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "yathzee made-up auth",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "1234512345"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:8080/yahtzee",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"yahtzee"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "yathzee invalid auth",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "2124042173008183123"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:8080/yahtzee",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"yahtzee"
+									]
+								}
+							},
+							"response": []
 						}
-					},
-					"response": []
-				},
-				{
-					"name": "todos/9999999999999999",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:8080/todos/9999999999999999",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"todos",
-								"9999999999999999"
-							]
-						}
-					},
-					"response": []
+					]
 				}
 			]
 		}
